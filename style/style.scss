@@ -1,0 +1,60 @@
+// flex 布局
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  @each $k, $v in (s: flex-start, e: flex-end, a: space-around) {
+    .flex-#{$k} {
+      justify-content: #{$v};
+    }
+  }
+  
+  // 字号 10-30
+  $i: 10;
+  @while $i <= 30 {
+    .fz-#{$i} {
+      font-size: $i * 1px;
+    }
+    $i: $i + 2;
+  }
+  
+  // 字体加粗
+  @for $i from 4 through 9 {
+    .fw-#{$i * 100} {
+      font-size: $i * 100;
+    }
+    .fw-#{$i} {
+      font-size: $i * 100;
+    }
+  }
+  
+  // 常用边距 2-30 pd-20, mg-20, pdt-20, mgr-20
+  $i: 2;
+  @while $i <= 30 {
+    @each $k, $v in (t: top, r: right, b: bottom, l: left) {
+      .pd#{$k}-#{$i} {
+        padding-#{$v}: $i * 1px;
+      }
+      .mg#{$k}-#{$i} {
+        margin-#{$v}: $i * 1px;
+      }
+    }
+    .pd-#{$i} {
+       padding: $i * 1px;
+    }
+    .mg-#{$i} {
+       margin: $i * 1px;
+    }
+    $i: $i + 2;
+  }
+  
+  // 圆角
+  $i: 2;
+  @while $i <= 20 {
+    .br-#{$i} {
+      border-radius: $i * 1px;
+    }
+    $i: $i + 2;
+  }
+  
