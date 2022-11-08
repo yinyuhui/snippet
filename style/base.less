@@ -1,0 +1,155 @@
+// flex 布局相关
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-v {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-c {
+    justify-content: center;
+}
+
+.flex-s {
+    justify-content: flex-start;
+}
+
+.flex-e {
+    justify-content: flex-end;
+}
+
+.flex-between {
+    justify-content: space-between;
+}
+
+.flex-around {
+    justify-content: space-around;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+// 单行溢出点点点
+.single-overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.relative {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.absolute {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+// 字体粗细相关 [100, 1000] +100
+.loopFw(@weight) when (@weight >=100) {
+    .fw-@{weight} {
+        font-weight: @weight;
+    }
+
+    .loopFw((@weight - 100));
+}
+
+.loopFw(1000);
+
+// 字号相关 [10, 50] +2
+.loopFz(@size) when (@size <=50) {
+    .fz-@{size} {
+        font-size: unit(@size, px);
+    }
+
+    .loopFz((@size+2));
+}
+
+.loopFz(10);
+
+// 圆角[2,20] step + 2
+.loopBr(@size) when (@size > 0) {
+    .br-@{size} {
+        border-radius: @size+0px;
+    }
+
+    .loopBr(@size - 2);
+}
+
+.loopBr(20);
+
+// 间距
+@directions: t top, r right, b bottom, l left, v top bottom, h left right;
+
+// mg pd [2, 100] step + 2
+.loopLen(@len) when (@len <=100) {
+    .mg-@{len} {
+        margin: unit(@len, px);
+    }
+
+    .pd-@{len} {
+        padding: unit(@len, px);
+    }
+
+    .loopDir(@directions, 1, @len);
+    .loopLen(@len + 2);
+}
+
+.loopLen(2);
+
+// pdt pdr pdb pdl mgt mgr mgb mgl
+.setValue1(@len, @key, @dir, @keyIndex) when(@keyIndex <=4) {
+    .mg@{key}-@{len} {
+        margin-@{dir}: unit(@len, px);
+    }
+
+    .pd@{key}-@{len} {
+        padding-@{dir}: unit(@len, px);
+    }
+}
+
+// pdv pdh mgv mgh
+.setValue2(@len, @key, @dir1, @dir2) when (@key =v),
+(@key=h) {
+    .mg@{key}-@{len} {
+        margin-@{dir1}: unit(@len, px);
+        margin-@{dir2}: unit(@len, px);
+    }
+
+    .pd@{key}-@{len} {
+        padding-@{dir1}: unit(@len, px);
+        padding-@{dir2}: unit(@len, px);
+    }
+}
+
+.loopDir(@list, @i, @len) when (@i <=length(@list)) {
+    @item: extract(@list, @i);
+    @key: extract(@item, 1);
+    @dir1: extract(@item, 2);
+    @dir2: extract(@item, 3);
+    .setValue1(@len, @key, @dir1, @i);
+    .setValue2(@len, @key, @dir1, @dir2);
+    .loopDir(@list, @i+1, @len);
+}
